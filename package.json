@@ -1,0 +1,16 @@
+{
+  "name": "meziforum-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "typescript": "^5.0.4",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^0.31.2"
+  }
+}
