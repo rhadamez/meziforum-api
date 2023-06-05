@@ -1,8 +1,7 @@
-import { QuestionsRepository } from '../repositories/question-repository'
 import { CreateQuestionUseCase } from './create-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 
-let questionsRepository: QuestionsRepository
+let questionsRepository: InMemoryQuestionsRepository
 let sut: CreateQuestionUseCase
 
 describe('Create Question', () => {
@@ -17,7 +16,8 @@ describe('Create Question', () => {
 			content: 'Conteúdo da pergunta',
 			authorId: '1'
 		})
-  
+
 		expect(question.id).toBeTruthy()
+		expect(questionsRepository.items[0].id).toEqual(question.id)
 	})
 })

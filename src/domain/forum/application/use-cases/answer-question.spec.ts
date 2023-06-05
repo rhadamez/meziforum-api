@@ -1,8 +1,7 @@
 import { AnswerQuestionUseCase } from './answer-question'
-import { AnswersRepository } from '../repositories/answers-repository'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-repository'
 
-let answersRepository: AnswersRepository
+let answersRepository: InMemoryAnswerRepository
 let sut: AnswerQuestionUseCase
 
 describe('Create Answer', () => {
@@ -19,5 +18,6 @@ describe('Create Answer', () => {
 		})
   
 		expect(answer.id).toBeTruthy()
+		expect(answersRepository.items[0].id).toEqual(answer.id)
 	})
 })
