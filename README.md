@@ -20,8 +20,6 @@ Install the dependencies and devDependencies:
 
 ```sh
 yarn
-npm i
-node app
 ```
 
 Run tests with:
