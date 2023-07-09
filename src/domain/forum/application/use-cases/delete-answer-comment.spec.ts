@@ -2,6 +2,7 @@ import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-an
 import { DeleteAnswerComment } from './delete-answer-comment'
 import { makeAnswerComment } from 'test/factories/make-answer-comment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 let answerCommentsRepository: InMemoryAnswerCommentsRepository
 let sut: DeleteAnswerComment
@@ -37,6 +38,6 @@ describe('Delete Answer Comment', () => {
 				authorId: 'author-2',
 				answerCommentId: answerComment.id.toString()
 			})
-		}).rejects.toBeInstanceOf(Error)
+		}).rejects.toBeInstanceOf(NotAllowed)
 	})
 })

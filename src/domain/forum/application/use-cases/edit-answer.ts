@@ -1,5 +1,7 @@
+import { AnswerNotFoundException } from '@/core/errors/AnswerNotFoundException'
 import { Answer } from '../../enterprise/entities/answer'
 import { AnswersRepository } from '../repositories/answers-repository'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 interface EditAnswerUseCaseRequest {
 	answerId: string
@@ -20,9 +22,9 @@ export class EditAnswerUseCase {
 	async execute({ answerId, authorId, content }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
 		const answer = await this.answersRepository.findById(answerId)
 
-		if(!answer) throw new Error('Answer not found.')
+		if(!answer) throw new AnswerNotFoundException()
 
-		if(authorId !== answer.authorId.toString()) throw new Error('Not allowed.')
+		if(authorId !== answer.authorId.toString()) throw new NotAllowed()
 
 		answer.content = content
 

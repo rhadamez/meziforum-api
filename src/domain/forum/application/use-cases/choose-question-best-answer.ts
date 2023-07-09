@@ -1,6 +1,9 @@
 import { AnswersRepository } from '../repositories/answers-repository'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/question-repository'
+import { NotAllowed } from '@/core/errors/NotAllowed'
+import { AnswerNotFoundException } from '@/core/errors/AnswerNotFoundException'
+import { QuestionNotFoundException } from '@/core/errors/QuestionNotFoundException'
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
   authorId: string
@@ -20,12 +23,12 @@ export class ChooseQuestionBestAnswerUseCase {
 
 	async execute({ authorId, answerId }: ChooseQuestionBestAnswerUseCaseRequest): Promise<ChooseQuestionBestAnswerUseCaseResponse> {
 		const answer = await this.answersRepository.findById(answerId)
-		if(!answer) throw new Error('Answer not found.')
+		if(!answer) throw new AnswerNotFoundException()
 
 		const question = await this.questionsRepository.findById(answer.questionId.toString())
-		if(!question) throw new Error('Question not found.')
+		if(!question) throw new QuestionNotFoundException()
 
-		if(authorId !== question.authorId.toString()) throw new Error('Not allowed.')
+		if(authorId !== question.authorId.toString()) throw new NotAllowed()
 
 		question.bestAnswerId = answer.id
 

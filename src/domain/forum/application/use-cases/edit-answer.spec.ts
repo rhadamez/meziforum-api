@@ -2,6 +2,7 @@ import { makeAnswer } from 'test/factories/make-answer'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { EditAnswerUseCase } from './edit-answer'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-repository'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 let answersRepository: InMemoryAnswerRepository
 let sut: EditAnswerUseCase
@@ -43,6 +44,6 @@ describe('Edit Answer', () => {
 				answerId: 'answer-1',
 				content: 'updated-content'
 			})
-		}).rejects.toBeInstanceOf(Error)
+		}).rejects.toBeInstanceOf(NotAllowed)
 	})
 })

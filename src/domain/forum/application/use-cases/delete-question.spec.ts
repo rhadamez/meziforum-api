@@ -2,6 +2,7 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { makeQuestion } from 'test/factories/make-question'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DeleteQuestionUseCase } from './delete-question'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 let questionsRepository: InMemoryQuestionsRepository
 let sut: DeleteQuestionUseCase
@@ -33,6 +34,6 @@ describe('Delete Question', () => {
 
 		expect(() => {
 			return sut.execute({ authorId: 'author-2', questionId: 'question-1' })
-		}).rejects.toBeInstanceOf(Error)
+		}).rejects.toBeInstanceOf(NotAllowed)
 	})
 })

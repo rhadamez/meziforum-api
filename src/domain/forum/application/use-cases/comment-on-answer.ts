@@ -2,6 +2,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AnswerComment } from '../../enterprise/entities/answer-comment'
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
 import { AnswersRepository } from '../repositories/answers-repository'
+import { AnswerNotFoundException } from '@/core/errors/AnswerNotFoundException'
 
 interface CommentOnAnswerUseCaseRequest {
 	authorId: string
@@ -21,7 +22,7 @@ export class CommentOnAnswer {
 
 	async execute({ authorId, answerId, content }: CommentOnAnswerUseCaseRequest): Promise<CommentOnAnswerCaseResponse> {
 		const answers = await this.answersRepository.findById(answerId)
-		if(!answers) throw new Error('Answer not found')
+		if(!answers) throw new AnswerNotFoundException()
 
 		const answerComment = AnswerComment.create({
 			content,

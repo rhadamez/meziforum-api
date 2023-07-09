@@ -1,5 +1,7 @@
+import { NotAllowed } from '@/core/errors/NotAllowed'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/question-repository'
+import { QuestionNotFoundException } from '@/core/errors/QuestionNotFoundException'
 
 interface EditQuestionUseCaseRequest {
 	questionId: string
@@ -21,9 +23,9 @@ export class EditQuestionUseCase {
 	async execute({ questionId, authorId, title, content }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
 		const question = await this.questionsRepository.findById(questionId)
 
-		if(!question) throw new Error('Question not found.')
+		if(!question) throw new QuestionNotFoundException()
 
-		if(authorId !== question.authorId.toString()) throw new Error('Not allowed.')
+		if(authorId !== question.authorId.toString()) throw new NotAllowed()
 
 		question.title = title
 		question.content = content

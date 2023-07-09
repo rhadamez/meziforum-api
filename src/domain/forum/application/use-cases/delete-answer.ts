@@ -1,3 +1,4 @@
+import { NotAllowed } from '@/core/errors/NotAllowed'
 import { AnswersRepository } from '../repositories/answers-repository'
 
 interface DeleteAnswerUseCaseRequest {
@@ -14,9 +15,9 @@ export class DeleteAnswerUseCase {
 	async execute({ authorId, answerId }: DeleteAnswerUseCaseRequest): Promise<void> {
 		const Answer = await this.answersRepository.findById(answerId)
 
-		if(!Answer) throw new Error('Answer not found.')
+		if(!Answer) throw new NotAllowed()
 
-		if(authorId !== Answer.authorId.toString()) throw new Error('Not allowed.')
+		if(authorId !== Answer.authorId.toString()) throw new NotAllowed()
 
 		await this.answersRepository.delete(Answer)
 	}

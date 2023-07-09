@@ -4,6 +4,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-repository'
 import { makeAnswer } from 'test/factories/make-answer'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 let answerRepository: InMemoryAnswerRepository
 let questionsRepository: InMemoryQuestionsRepository
@@ -41,7 +42,7 @@ describe('Choose Question Best Answer', () => {
 			return sut.execute({
 				answerId: answer.id.toString(),
 				authorId: answer.authorId.toString() })
-		}).rejects.toBeInstanceOf(Error)
+		}).rejects.toBeInstanceOf(NotAllowed)
 	})
 
 })

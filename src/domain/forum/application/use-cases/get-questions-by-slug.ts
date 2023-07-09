@@ -1,3 +1,4 @@
+import { QuestionNotFoundException } from '@/core/errors/QuestionNotFoundException'
 import { Question } from '../../enterprise/entities/question'
 import { QuestionsRepository } from '../repositories/question-repository'
 
@@ -16,7 +17,7 @@ export class GetQuestionBySlug {
 
 	async execute({ slug }: GetQuestionBySlugRequest): Promise<GetQuestionBySlugResponse> {
 		const question = await this.questionsRepository.findBySlug(slug)
-		if(!question) throw new Error('Question not found')
+		if(!question) throw new QuestionNotFoundException()
 
 		return { question }
 	}

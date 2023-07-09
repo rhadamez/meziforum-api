@@ -1,26 +1,23 @@
-import { Either, left, right } from '@/core/either'
+import { CommentaryNotFoundException } from '@/core/errors/CommentaryNotFoundException'
 import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
+import { NotAllowed } from '@/core/errors/NotAllowed'
 
 interface DeleteAnswerCommentUseCaseRequest {
 	authorId: string
 	answerCommentId: string
 }
 
-type DeleteAnswerCommentUseCaseResponse = Either<string, object>
-
 export class DeleteAnswerComment {
 	constructor(
     private answerCommentsRepository: AnswerCommentsRepository
 	) { }
 
-	async execute({ authorId, answerCommentId }: DeleteAnswerCommentUseCaseRequest): Promise<DeleteAnswerCommentUseCaseResponse> {
+	async execute({ authorId, answerCommentId }: DeleteAnswerCommentUseCaseRequest): Promise<void> {
 		const answerComment = await this.answerCommentsRepository.findById(answerCommentId)
-		if(!answerComment) return left('Comment not found on this answer.')
+		if(!answerComment) throw new CommentaryNotFoundException()
 
-		if(authorId !== answerComment.authorId.toString()) return left('Not allowed.')
+		if(authorId !== answerComment.authorId.toString()) throw new NotAllowed()
 
 		await this.answerCommentsRepository.delete(answerComment)
-
-		return right({})
 	}
 }
