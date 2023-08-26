@@ -3,13 +3,15 @@ import { DeleteAnswerUseCase } from './delete-answer'
 import { InMemoryAnswerRepository } from 'test/repositories/in-memory-answers-repository'
 import { makeAnswer } from 'test/factories/make-answer'
 import { NotAllowed } from '@/core/errors/NotAllowed'
+import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
 
 let answersRepository: InMemoryAnswerRepository
 let sut: DeleteAnswerUseCase
 
 describe('Delete Answer', () => {
 	beforeEach(() => {
-		answersRepository = new InMemoryAnswerRepository()
+		const answerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
+		answersRepository = new InMemoryAnswerRepository(answerAttachmentsRepository)
 		sut = new DeleteAnswerUseCase(answersRepository)
 	})
 

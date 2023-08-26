@@ -10,6 +10,7 @@ export class DeleteAnswerUseCase {
 
 	constructor(
     private answersRepository: AnswersRepository
+		
 	) { }
 
 	async execute({ authorId, answerId }: DeleteAnswerUseCaseRequest): Promise<void> {
