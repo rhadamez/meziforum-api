@@ -4,6 +4,8 @@ import { FetchQuestionAnswerssUseCase } from './fetch-question-answers'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 
 let questionsRepository: InMemoryQuestionsRepository
 let answersRepository: InMemoryAnswerRepository
@@ -11,8 +13,11 @@ let sut: FetchQuestionAnswerssUseCase
 
 describe('Fetch Recent Questions', () => {
 	beforeEach(() => {
-		questionsRepository = new InMemoryQuestionsRepository()
-		answersRepository = new InMemoryAnswerRepository()
+		const questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+		questionsRepository = new InMemoryQuestionsRepository(questionAttachmentsRepository)
+
+		const answerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository()
+		answersRepository = new InMemoryAnswerRepository(answerAttachmentsRepository)
 		sut = new FetchQuestionAnswerssUseCase(answersRepository)
 	})
 
