@@ -13,12 +13,12 @@ export class DeleteAnswerUseCase {
 	) { }
 
 	async execute({ authorId, answerId }: DeleteAnswerUseCaseRequest): Promise<void> {
-		const Answer = await this.answersRepository.findById(answerId)
+		const answer = await this.answersRepository.findById(answerId)
 
-		if(!Answer) throw new NotAllowed()
+		if(!answer) throw new NotAllowed()
 
-		if(authorId !== Answer.authorId.toString()) throw new NotAllowed()
+		if(authorId !== answer.authorId.toString()) throw new NotAllowed()
 
-		await this.answersRepository.delete(Answer)
+		await this.answersRepository.delete(answer)
 	}
 }
